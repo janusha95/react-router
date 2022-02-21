@@ -1,4 +1,5 @@
 import logo from "./logo.svg";
+import React from "react";
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
@@ -11,6 +12,7 @@ import NewProducts from "./components/NewProducts";
 import FeaturedProducts from "./components/FeaturedProducts";
 import Users from "./components/Users";
 import UserDetails from "./components/UserDetails";
+const LazyAbout = React.lazy(() => import("./components/About"));
 
 function App() {
   return (
@@ -18,7 +20,14 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="about" element={<About />} />
+        <Route
+          path="about"
+          element={
+            <React.Suspense fallback="Loading">
+              <LazyAbout />
+            </React.Suspense>
+          }
+        />
         <Route path="order-summary" element={<OrderSummary />} />
         <Route path="products" element={<Products />}>
           <Route index element={<FeaturedProducts />} />
